@@ -1,10 +1,12 @@
-import {Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, ViewStyle} from 'react-native';
 
 type MyButtonType = {
-  onPress: () => void;
+  title: string;
+  onPress?: () => void;
+  containerStyle?: ViewStyle;
 };
 
-export const MyButton = ({onPress}: MyButtonType) => {
+export const MyButton = ({title, onPress, containerStyle}: MyButtonType) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -13,6 +15,7 @@ export const MyButton = ({onPress}: MyButtonType) => {
         height: 48,
         borderRadius: 30,
         backgroundColor: '#5B58AD',
+        ...containerStyle,
       }}>
       <Text
         style={{
@@ -21,7 +24,7 @@ export const MyButton = ({onPress}: MyButtonType) => {
           textAlign: 'center',
           textAlignVertical: 'center',
         }}>
-        Login
+        {title}
       </Text>
     </TouchableOpacity>
   );

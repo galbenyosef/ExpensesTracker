@@ -10,7 +10,7 @@ import {useMMKVString} from 'react-native-mmkv';
 import {MyButton} from '../components/ui/MyButton';
 import {DataItem} from '../utilities/types';
 import {BottomTabs} from '../components/ui/BottomTabs';
-import {SlideUpModal} from './modals/SlideUpModal';
+import {SlideUpModal} from '../components/ui/SlideUpModal';
 
 /* function randomDate(start: Date, end: Date) {
   return new Date(
@@ -77,6 +77,12 @@ let readyData = Object.keys(grouped).map(groupKey => ({
 export function HomeScreen() {
   const [name, setName] = useMMKVString('name');
 
+  React.useEffect(() => {
+    console.log('home mount');
+
+    return () => console.log('home dismount');
+  }, []);
+
   return (
     <View
       style={{
@@ -99,8 +105,6 @@ export function HomeScreen() {
           <Text>Home Screen</Text>
         </TouchableOpacity>
       </View>
-      <SlideUpModal />
-      <BottomTabs active={'Home'} />
     </View>
   );
 }

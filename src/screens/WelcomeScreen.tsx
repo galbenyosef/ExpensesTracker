@@ -6,7 +6,7 @@ import {MyTextInput} from '../components/ui/MyTextInput';
 import {MyButton} from '../components/ui/MyButton';
 import {StackParamList} from '../utilities/types';
 
-type Props = StackScreenProps<StackParamList, 'Welcome'>;
+type Props = StackScreenProps<StackParamList, 'WelcomeScreen'>;
 
 export function WelcomeScreen({navigation}: Props) {
   const [, setStoredName] = useMMKVString('name');
@@ -14,7 +14,7 @@ export function WelcomeScreen({navigation}: Props) {
 
   const onLoginPress = () => {
     setStoredName(input);
-    navigation.replace('Home', {name: input});
+    navigation.replace('AppTabs');
   };
 
   const onTextInputChange = (txt: string) => {
