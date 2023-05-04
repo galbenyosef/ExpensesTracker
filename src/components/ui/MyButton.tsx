@@ -1,10 +1,10 @@
 import {Text, TouchableOpacity} from 'react-native';
 
-type MyButton = {
-  onPress?: () => void;
+type MyButtonType = {
+  onPress: () => void;
 };
 
-export const MyButton = ({onPress}: MyButton) => {
+export const MyButton = ({onPress}: MyButtonType) => {
   return (
     <TouchableOpacity
       onPress={onPress}

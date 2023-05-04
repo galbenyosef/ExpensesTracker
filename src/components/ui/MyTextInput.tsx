@@ -1,7 +1,7 @@
 import {useRef, useState} from 'react';
-import {View, TextInput, Animated, ViewStyle} from 'react-native';
+import {View, TextInput, Animated, ViewStyle, Keyboard} from 'react-native';
 
-type MyTextInput = {
+type MyTextInputType = {
   initValue?: string;
   placeholder?: string;
   containerStyle?: ViewStyle;
@@ -15,7 +15,7 @@ export const MyTextInput = ({
   containerStyle,
   inputStyle,
   onChangedText,
-}: MyTextInput) => {
+}: MyTextInputType) => {
   const translateYAnim = useRef(new Animated.Value(10)).current;
 
   const [text, setText] = useState(initValue);

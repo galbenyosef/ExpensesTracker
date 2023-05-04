@@ -7,6 +7,7 @@ export const useInitApp = (): [
   boolean,
   keyof StackParamList,
   Dispatch<SetStateAction<boolean>>,
+  string?,
 ] => {
   const [name] = useMMKVString('name');
   const [isNavigationReady, setIsNavigationReady] = useState<boolean>(false);
@@ -36,5 +37,5 @@ export const useInitApp = (): [
     }
   }, [isAppReady]);
 
-  return [isAppReady, initialRouteName, setIsNavigationReady];
+  return [isAppReady, initialRouteName, setIsNavigationReady, name];
 };

@@ -1,5 +1,13 @@
 import * as React from 'react';
-import {ScrollView, StatusBar, Text, View} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
+} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -7,23 +15,32 @@ import {WelcomeScreen} from './src/screens/WelcomeScreen';
 import {HomeScreen} from './src/screens/HomeScreen';
 import {useInitApp} from './src/utilities/useInitApp';
 import {StackParamList} from './src/utilities/types';
+import {navigationRef} from './src/navigation/StackNavigation';
+import {LoadingModal} from './src/screens/modals/LoadingModal';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const Stack = createStackNavigator<StackParamList>();
 
 function App() {
-  const [isAppReady, initialRouteName, setIsNavigationReady] = useInitApp();
+  const [isAppReady, initialRouteName, setIsNavigationReady, name] =
+    useInitApp();
 
   return (
     <SafeAreaProvider>
+      <LoadingModal show={!isAppReady} />
       <StatusBar
         translucent
         barStyle={'dark-content'}
         backgroundColor={'transparent'}
       />
-      <ScrollView
-        contentContainerStyle={{flexGrow: 1}}
-        keyboardShouldPersistTaps="handled">
-        <NavigationContainer onReady={() => setIsNavigationReady(true)}>
+      <Pressable
+        onPress={() => {
+          Keyboard.dismiss();
+        }}
+        style={{flexGrow: 1}}>
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() => setIsNavigationReady(true)}>
           <Stack.Navigator initialRouteName={initialRouteName}>
             <Stack.Screen
               name="Welcome"
@@ -32,17 +49,16 @@ function App() {
             />
             <Stack.Screen
               options={{
-                headerTitle: 'Gal B',
-                headerTransparent: true,
-                headerStatusBarHeight: 0,
-                headerTitleContainerStyle: {justifyContent: 'center'},
+                headerTitle: name,
+                headerStyle: {backgroundColor: 'transparent'},
+                headerTitleAlign: 'center',
               }}
               name="Home"
               component={HomeScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>
-      </ScrollView>
+      </Pressable>
     </SafeAreaProvider>
   );
 }
