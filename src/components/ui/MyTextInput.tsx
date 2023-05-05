@@ -1,5 +1,12 @@
 import {useRef, useState} from 'react';
-import {View, TextInput, Animated, ViewStyle, Keyboard} from 'react-native';
+import {
+  View,
+  TextInput,
+  Animated,
+  ViewStyle,
+  Keyboard,
+  KeyboardTypeOptions,
+} from 'react-native';
 
 type MyTextInputType = {
   initValue?: string;
@@ -7,6 +14,7 @@ type MyTextInputType = {
   containerStyle?: ViewStyle;
   inputStyle?: ViewStyle;
   onChangedText?: (txt: string) => void;
+  keyboardType?: KeyboardTypeOptions;
 };
 
 export const MyTextInput = ({
@@ -15,6 +23,7 @@ export const MyTextInput = ({
   containerStyle,
   inputStyle,
   onChangedText,
+  keyboardType,
 }: MyTextInputType) => {
   const translateYAnim = useRef(new Animated.Value(10)).current;
 
@@ -45,6 +54,7 @@ export const MyTextInput = ({
     <View style={{width: 255, ...containerStyle}}>
       <TextInput
         autoComplete="name"
+        keyboardType={keyboardType}
         maxLength={16}
         onChangeText={onChangeText}
         onFocus={() => {

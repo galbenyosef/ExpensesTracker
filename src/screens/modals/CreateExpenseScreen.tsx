@@ -1,46 +1,34 @@
 import React from 'react';
-import {KeyboardAvoidingView, ScrollView} from 'react-native';
+import {View, KeyboardAvoidingView} from 'react-native';
 import {SlideUpModal} from '../../components/ui/SlideUpModal';
 import {MyTextInput} from '../../components/ui/MyTextInput';
 import {MyButton} from '../../components/ui/MyButton';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {ScrollView} from 'react-native-gesture-handler';
 
 export const CreateExpenseScreen = () => {
   return (
     <SlideUpModal>
-      <KeyboardAvoidingView
-        behavior="position"
+      <KeyboardAwareScrollView
+        extraScrollHeight={-30}
+        enableOnAndroid
+        style={{flexGrow: 1}}
         contentContainerStyle={{
-          flexGrow: 1,
           justifyContent: 'center',
           alignItems: 'center',
         }}>
         <MyTextInput
-          containerStyle={{borderBottomWidth: 0.5}}
+          containerStyle={{borderBottomWidth: 0.5, marginBottom: 20}}
           placeholder="Title"
         />
         <MyTextInput
-          containerStyle={{borderBottomWidth: 0.5}}
+          keyboardType="number-pad"
+          containerStyle={{borderBottomWidth: 0.5, marginBottom: 20}}
           placeholder="Amount"
         />
         <MyTextInput
-          containerStyle={{borderBottomWidth: 0.5}}
-          placeholder="Date"
-        />
-        <MyTextInput
-          containerStyle={{borderBottomWidth: 0.5}}
-          placeholder="Date"
-        />
-        <MyTextInput
-          containerStyle={{borderBottomWidth: 0.5}}
-          placeholder="Date"
-        />
-
-        <MyTextInput
-          containerStyle={{borderBottomWidth: 0.5}}
-          placeholder="Date"
-        />
-        <MyTextInput
-          containerStyle={{borderBottomWidth: 0.5}}
+          keyboardType="phone-pad"
+          containerStyle={{borderBottomWidth: 0.5, marginBottom: 20}}
           placeholder="Date"
         />
         <MyButton
@@ -48,7 +36,7 @@ export const CreateExpenseScreen = () => {
           title="Create"
           onPress={() => {}}
         />
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </SlideUpModal>
   );
 };
