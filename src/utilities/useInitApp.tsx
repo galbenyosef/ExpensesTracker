@@ -18,7 +18,6 @@ export const useInitApp = (): [
 
   const onAppReady = async () => {
     await RNBootSplash.hide({fade: true, duration: 500});
-    console.log('app is ready');
   };
 
   const initialRouteName = name ? 'AppTabs' : 'WelcomeScreen';

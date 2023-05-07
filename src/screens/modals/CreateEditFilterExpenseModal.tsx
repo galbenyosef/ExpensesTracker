@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Pressable} from 'react-native';
 import {SlideUpModal} from '../../components/ui/SlideUpModal';
 import {MyTextInput} from '../../components/ui/MyTextInput';
@@ -52,45 +52,53 @@ export const CreateEditFilterExpenseScreen = ({route}: Props) => {
     setAmountString(newAmount);
   };
 
-  const onButtonPress = (candidateItem: OptionalDataItem) => {
-    if (
-      candidateItem &&
-      candidateItem.title &&
-      candidateItem.amount &&
-      candidateItem.date
-    ) {
-      const newItem: DataItem = {
-        id: candidateItem.id,
-        title: candidateItem.title,
-        date: candidateItem.date,
-        amount: candidateItem.amount,
-      };
+  const onButtonPress = useCallback(
+    (candidateItem: OptionalDataItem) => {
+      if (
+        candidateItem &&
+        candidateItem.title &&
+        candidateItem.amount &&
+        candidateItem.date
+      ) {
+        const newItem: DataItem = {
+          id: candidateItem.id,
+          title: candidateItem.title,
+          date: candidateItem.date,
+          amount: candidateItem.amount,
+        };
 
-      const parsedData: DataItem[] = dataString && JSON.parse(dataString);
-      let newParsedData: DataItem[] = parsedData;
+        const parsedData: DataItem[] = dataString && JSON.parse(dataString);
+        let newParsedData: DataItem[] = parsedData;
 
-      //first insertion
-      if (!newParsedData) {
-        newParsedData = [newItem];
-      }
-      //array inited, find if item exist
-      else if (newParsedData) {
-        let itemExistsIndex = newParsedData.findIndex(
-          _item => _item.id === newItem.id,
-        );
-        //update
-        if (itemExistsIndex > -1) {
-          newParsedData[itemExistsIndex] = newItem;
+        //first insertion
+        if (!newParsedData) {
+          newParsedData = [newItem];
         }
-        //create
-        else {
-          newParsedData.push(newItem);
+        //array inited, find if item exist
+        else if (newParsedData) {
+          let itemExistsIndex = newParsedData.findIndex(
+            _item => _item.id === newItem.id,
+          );
+          //update
+          if (itemExistsIndex > -1) {
+            newParsedData[itemExistsIndex] = newItem;
+          }
+          //create
+          else {
+            newParsedData.push(newItem);
+          }
         }
-      }
 
-      setDataString(JSON.stringify(newParsedData));
-      navigation.goBack();
-    }
+        setDataString(JSON.stringify(newParsedData));
+        navigation.goBack();
+      }
+    },
+    [dataString, navigation, setDataString],
+  );
+
+  const onFilterPress = () => {
+    setFilter?.({...dataItem, amount: Number(amountString)});
+    navigation.goBack();
   };
 
   const resetState = () => {
@@ -143,7 +151,7 @@ export const CreateEditFilterExpenseScreen = ({route}: Props) => {
             title={setFilter ? 'Filter' : item ? 'Save' : 'Create'}
             onPress={() => {
               setFilter
-                ? setFilter(dataItem)
+                ? onFilterPress()
                 : onButtonPress({...dataItem, amount: Number(amountString)});
             }}
           />

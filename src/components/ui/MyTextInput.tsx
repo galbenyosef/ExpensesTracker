@@ -7,6 +7,7 @@ import {
   ViewStyle,
   TextStyle,
   KeyboardTypeOptions,
+  StyleSheet,
 } from 'react-native';
 
 type MyTextInputType = {
@@ -74,30 +75,17 @@ export const MyTextInput = ({
         onFocus={() => {
           animate();
         }}
-        onChange={() => console.log('test')}
         onEndEditing={() => {
-          console.log('here');
           if (!value) {
             animateReset();
           }
         }}
         textAlignVertical="bottom"
-        style={{
-          color: 'black',
-          height: 55,
-          width: '100%',
-          borderBottomColor: 'grey',
-        }}
+        style={styles.input}
       />
       <Animated.Text
         style={{
-          position: 'absolute',
-          zIndex: -1,
-          width: '100%',
-          top: 0,
-          paddingStart: 4,
-          textAlignVertical: 'center',
-          bottom: 0,
+          ...styles.placeholder,
           transform: [{translateY: translateYAnim}],
           ...inputStyle,
         }}>
@@ -106,3 +94,21 @@ export const MyTextInput = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  placeholder: {
+    position: 'absolute',
+    zIndex: -1,
+    width: '100%',
+    top: 0,
+    paddingStart: 4,
+    textAlignVertical: 'center',
+    bottom: 0,
+  },
+  input: {
+    color: 'black',
+    height: 55,
+    width: '100%',
+    borderBottomColor: 'grey',
+  },
+});

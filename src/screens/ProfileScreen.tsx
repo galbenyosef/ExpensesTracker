@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 export function ProfileScreen() {
-  const [name, setName] = useMMKVString('data');
+  const [, setName] = useMMKVString('data');
   const [dataString, setDataString] = useMMKVString('data');
 
   const data: DataItem[] = (dataString && JSON.parse(dataString)) || [];

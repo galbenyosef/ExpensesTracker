@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {useEffect, useRef} from 'react';
 import {TouchableOpacity, Modal, Animated} from 'react-native';
 const Logo = require('../../../assets/logo.png');
