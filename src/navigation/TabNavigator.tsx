@@ -23,7 +23,7 @@ const tabScreenOptions: BottomTabNavigationOptions = {
   tabBarStyle: {
     backgroundColor: 'transparent',
     elevation: 0,
-    height: 107,
+    height: 87,
   },
   tabBarIconStyle: {display: 'none'},
 };
