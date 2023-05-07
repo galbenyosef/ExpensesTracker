@@ -1,14 +1,23 @@
 import * as React from 'react';
-import {Modal, Pressable, View} from 'react-native';
+import {
+  Modal,
+  Pressable,
+  Text,
+  View,
+  TouchableOpacity,
+  Keyboard,
+} from 'react-native';
 import {CloseButton} from './CloseButton';
 import {useNavigation} from '@react-navigation/native';
 
 type Props = {
   show?: boolean;
+  title?: string;
   children: any;
+  onClear?: () => void;
 };
 
-export function SlideUpModal({show, children}: Props) {
+export function SlideUpModal({show, title, children, onClear}: Props) {
   const navigation = useNavigation();
 
   return (
@@ -19,11 +28,10 @@ export function SlideUpModal({show, children}: Props) {
       statusBarTranslucent
       animationType="slide"
       visible={show}>
-      <View
+      <Pressable
+        onPress={Keyboard.dismiss}
         style={{
           flex: 1,
-          borderWidth: 10,
-          borderColor: 'green',
           backgroundColor: 'rgba(0,0,0,0.2)',
         }}>
         <Pressable
@@ -32,7 +40,6 @@ export function SlideUpModal({show, children}: Props) {
         />
         <View
           style={{
-            borderWidth: 2,
             borderTopLeftRadius: 30,
             borderTopRightRadius: 30,
             borderColor: 'red',
@@ -43,16 +50,39 @@ export function SlideUpModal({show, children}: Props) {
               navigation.goBack();
             }}
           />
+          <View>
+            <Text
+              style={{
+                fontSize: 16,
+                color: 'black',
+                textAlign: 'center',
+                textAlignVertical: 'center',
+              }}>
+              {title}
+            </Text>
+            {onClear ? (
+              <TouchableOpacity
+                onPress={onClear}
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  top: 0,
+                  left: 20,
+                  justifyContent: 'center',
+                }}>
+                <Text style={{fontSize: 12, color: '#455EFF'}}>Clear</Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
           <View
             style={{
               borderColor: 'purple',
-              borderWidth: 5,
               padding: 20,
             }}>
             {children}
           </View>
         </View>
-      </View>
+      </Pressable>
     </Modal>
   );
 }

@@ -10,7 +10,6 @@ export const CloseButton = ({onPress}: Props) => (
     onPress={onPress}
     style={{
       alignSelf: 'flex-end',
-      borderWidth: 1,
       width: 40,
       height: 40,
     }}>

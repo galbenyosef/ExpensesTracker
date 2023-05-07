@@ -21,7 +21,7 @@ export const useInitApp = (): [
     console.log('app is ready');
   };
 
-  const initialRouteName = name ? 'Home' : 'Welcome';
+  const initialRouteName = name ? 'AppTabs' : 'WelcomeScreen';
 
   useEffect(() => {
     const timeout = setTimeout(() => {

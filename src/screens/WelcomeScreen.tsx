@@ -1,5 +1,6 @@
+import React from 'react';
 import {useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {useMMKVString} from 'react-native-mmkv';
 import {StackScreenProps} from '@react-navigation/stack';
 import {MyTextInput} from '../components/ui/MyTextInput';
@@ -13,8 +14,10 @@ export function WelcomeScreen({navigation}: Props) {
   const [input, setInput] = useState<string>('');
 
   const onLoginPress = () => {
-    setStoredName(input);
-    navigation.replace('AppTabs');
+    if (input) {
+      setStoredName(input);
+      navigation.replace('AppTabs');
+    }
   };
 
   const onTextInputChange = (txt: string) => {
@@ -22,31 +25,35 @@ export function WelcomeScreen({navigation}: Props) {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <View
-        style={{
-          flex: 0.8,
-          justifyContent: 'center',
-        }}>
+    <View style={styles.container}>
+      <View style={styles.topView}>
         <MyTextInput
-          containerStyle={{
-            backgroundColor: 'white',
-            borderWidth: 1,
-            borderColor: '#5B58AD',
-            borderRadius: 3,
-          }}
+          containerStyle={styles.inputContainer}
           onChangedText={onTextInputChange}
           placeholder={'Enter your name'}
         />
       </View>
       <View>
-        <MyButton onPress={onLoginPress} />
+        <MyButton title="Login" onPress={onLoginPress} />
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  topView: {
+    flex: 0.8,
+    justifyContent: 'center',
+  },
+  inputContainer: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#5B58AD',
+    borderRadius: 3,
+  },
+});

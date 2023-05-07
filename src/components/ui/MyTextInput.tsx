@@ -1,72 +1,89 @@
-import {useRef, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
+import {useRef} from 'react';
 import {
   View,
   TextInput,
   Animated,
   ViewStyle,
-  Keyboard,
+  TextStyle,
   KeyboardTypeOptions,
 } from 'react-native';
 
 type MyTextInputType = {
-  initValue?: string;
+  value?: string;
   placeholder?: string;
   containerStyle?: ViewStyle;
-  inputStyle?: ViewStyle;
-  onChangedText?: (txt: string) => void;
+  inputStyle?: TextStyle;
+  onChangedText?: (newVal: string) => void;
   keyboardType?: KeyboardTypeOptions;
+  disabled?: boolean;
 };
 
 export const MyTextInput = ({
-  initValue,
+  value,
   placeholder,
   containerStyle,
   inputStyle,
   onChangedText,
   keyboardType,
+  disabled,
 }: MyTextInputType) => {
-  const translateYAnim = useRef(new Animated.Value(10)).current;
+  const translateYAnim = useRef(new Animated.Value(value ? -20 : 10)).current;
 
-  const [text, setText] = useState(initValue);
-
-  const onChangeText = (txt: string) => {
-    setText(txt);
-    onChangedText?.(txt);
-  };
-
-  const animate = () => {
+  const animate = useCallback(() => {
     Animated.timing(translateYAnim, {
       toValue: -20,
       duration: 200,
       useNativeDriver: true,
     }).start();
-  };
+  }, [translateYAnim]);
 
-  const animateReset = () => {
+  const animateReset = useCallback(() => {
     Animated.timing(translateYAnim, {
       toValue: 10,
       duration: 200,
       useNativeDriver: true,
     }).start();
+  }, [translateYAnim]);
+
+  useEffect(() => {
+    if (value && !onChangedText) {
+      animate();
+    }
+    if (!value && !onChangedText) {
+      animateReset();
+    }
+  }, [value, onChangedText, animate, animateReset]);
+
+  const onChangeText = (txt: string) => {
+    onChangedText?.(txt);
+    if (txt) {
+      animate();
+    }
   };
 
   return (
     <View style={{width: 255, ...containerStyle}}>
       <TextInput
+        editable={!disabled}
         autoComplete="name"
         keyboardType={keyboardType}
         maxLength={16}
+        value={value}
         onChangeText={onChangeText}
         onFocus={() => {
           animate();
         }}
-        onBlur={() => {
-          if (!text) {
+        onChange={() => console.log('test')}
+        onEndEditing={() => {
+          console.log('here');
+          if (!value) {
             animateReset();
           }
         }}
         textAlignVertical="bottom"
         style={{
+          color: 'black',
           height: 55,
           width: '100%',
           borderBottomColor: 'grey',

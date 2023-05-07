@@ -1,10 +1,11 @@
-import {StackScreenProps} from '@react-navigation/stack';
+import {Dispatch, SetStateAction} from 'react';
 
 export type StackParamList = {
-  WelcomeScreen: StackScreenProps<StackParamList>;
+  WelcomeScreen: undefined;
   AppTabs: undefined;
-  CreateExpenseScreen: undefined;
-  EditExpenseScreen: undefined;
+  CreateEditFilterExpenseScreen:
+    | {item?: DataItem; setFilter?: Dispatch<SetStateAction<OptionalDataItem>>}
+    | undefined;
 };
 
 export type TabParamList = {
@@ -13,7 +14,15 @@ export type TabParamList = {
   CreateExpenseButton: undefined;
 };
 
+export type OptionalDataItem = {
+  id: string;
+  title?: string;
+  amount?: number;
+  date?: Date;
+};
+
 export type DataItem = {
+  id: string;
   title: string;
   amount: number;
   date: Date;
